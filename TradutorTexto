@@ -1,0 +1,107 @@
+utilizando %ax como acumulador
+
+
+SECTION DATA
+section .data
+
+SECTION TEXT
+section .text
+global _start
+_start:
+
+
+space->.bss (e os endereços das variaveis?)
+const->label wb valor   (e os endereços das constantes?)
+
+equ,if-> pre-processamento .asm
+
+
+1- add operando1
+   add ax,operando1
+ 
+2- sub operando1
+   sub ax,operando1
+ 
+3- mul operando1
+   mul ax,operando1
+ 
+4- div operando1
+   div ax,operando1
+ 
+5-  jmp label
+	jmp label
+
+6-  jmpn label   (ax<0)
+	cmp ax,0 (0-ax=?)
+	ja label
+
+7-  jmpp label  (ax>0)
+	cmp ax,0 (0-ax=?)
+	jb label
+
+8-  jmpz label  (ax=0)
+	cmp ax,0 (0-ax=?)
+	je label
+
+9-  copy operando1, operando2
+	mov operando1, operando2
+
+10- load operando1
+	lea ax,operando1
+
+11- store operando1
+	mov ax,[operando1]   ??isso mesmo??
+
+12-input
+	call LerInteiro
+
+13- output
+	call EscreverInteiro
+
+14- stop
+	mov eax,1
+	mov ebx,0
+	int 80h
+	
+	
+section     .data
+num dw 12345
+null db 0
+string db "",0xa
+
+LerInteiro:
+
+EscreverInteiro:
+	mov ebx,[num]
+	push ebx
+	mov ebx,10			;base 10
+	mov ecx,0
+	mov eax,0
+	
+label1:
+	inc ecx
+	mov ax,[num]
+	mov edx,0
+	div  ebx
+	mov [num],eax
+	cmp ebx,[num]		;se ebx<num taca o valor em str+1 senão da return
+	ja label2
+	mov eax,edx			;pegar o modulo
+	add eax,0x30		;eax+=48
+	mov [string + ecx],eax	;str+1=eax
+	jne label1
+	
+label2:
+	mov [string+ecx],edx          ;tem q dar uma arrumada nessa parte
+	mov [string+ecx+1+30h],eax
+	;mov [string+ecx+2],dbyte null
+	pop ebx
+	mov [num],ebx
+	mov eax,4
+	mov ebx,1
+	mov edi,ecx
+	mov ecx,string
+	mov edx,edi
+	int 80h				;mostrar na tela o inteiro no endereço [num]
+	ret 16
+	

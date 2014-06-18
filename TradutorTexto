@@ -10,8 +10,8 @@ global _start
 _start:
 
 
-space->.bss (e os endereços das variaveis?)
-const->label wb valor   (e os endereços das constantes?)
+space->.bss
+const->label wb valor
 
 equ,if-> pre-processamento .asm
 

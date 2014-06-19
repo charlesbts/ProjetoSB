@@ -63,45 +63,5 @@ equ,if-> pre-processamento .asm
 	mov ebx,0
 	int 80h
 	
-	
-section     .data
-num dw 12345
-null db 0
-string db "",0xa
 
-LerInteiro:
-
-EscreverInteiro:
-	mov ebx,[num]
-	push ebx
-	mov ebx,10			;base 10
-	mov ecx,0
-	mov eax,0
-	
-label1:
-	inc ecx
-	mov ax,[num]
-	mov edx,0
-	div  ebx
-	mov [num],eax
-	cmp ebx,[num]		;se ebx<num taca o valor em str+1 senão da return
-	ja label2
-	mov eax,edx			;pegar o modulo
-	add eax,0x30		;eax+=48
-	mov [string + ecx],eax	;str+1=eax
-	jne label1
-	
-label2:
-	mov [string+ecx],edx          ;tem q dar uma arrumada nessa parte
-	mov [string+ecx+1+30h],eax
-	;mov [string+ecx+2],dbyte null
-	pop ebx
-	mov [num],ebx
-	mov eax,4
-	mov ebx,1
-	mov edi,ecx
-	mov ecx,string
-	mov edx,edi
-	int 80h				;mostrar na tela o inteiro no endereço [num]
-	ret 16
-	
+LerInteiro:...

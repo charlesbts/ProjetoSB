@@ -1,0 +1,71 @@
+
+;19/6/2014
+
+EscreverInteiro:
+	mov ebx,[num]
+	push ebx
+	mov ebx,10			;base 10
+	mov ecx,0
+	mov eax,0
+
+label1:
+	mov ax,[num]
+	mov edx,0			;16 bits mais significativos da divisao=0
+	div  ebx			;pegar o modulo->edx
+	;cmp ebx,[num]		;se ebx<num taca o valor em str+1 senão termina
+	cmp eax,0
+	;ja label3
+	jz label3
+	add edx,0x30		;eax+=48
+	push ecx
+	cmp ecx,0			
+	jz	label2			;if ecx=0 nao empurra caracter
+	push edx
+	jmp empurracaracter
+
+label2:
+	mov [string],dl	;escreve o caracter na primeira posicao;dl é o menor byte de edx
+	pop ecx
+	mov [num],ax	;num=num/10
+	inc ecx
+	jne label1
+
+label3:
+	;somar 30 e emperrurar s outros
+	mov eax,0
+	mov al,dl
+	add al,0x30
+	mov dl,al
+	push ecx
+	push edx
+	cmp ecx,0
+	jz label4
+jmp empurracaracter
+
+label4:	mov [string],dl 
+	pop edx
+	pop ebx
+	mov [num],bx
+	mov eax,4
+	mov ebx,1
+	mov ecx,string
+	int 80h				;mostrar na tela o inteiro no endereço [num] q está na string
+	ret 16				;volta para o programa principal
+
+empurracaracter:
+mov edx,[string+ ecx-1]	;aki o exc ja está com indice+1 do caracter q vai empurrar por isso -1
+mov [string + ecx],dl		;aki o exc ja está com indice+1 do caracter q vai empurrar
+loop empurracaracter		;if ecx>0, ecx--,else return
+pop edx						;valor do caracter atual
+cmp ebx,[num]		;se ebx<num taca o valor em str+1 senão da return
+ja label4       ; no teste q eu fiz, esse jump começou a dar erro...
+jmp label2
+;exemplo
+;ecx=0 ->1	
+;exc=1 ->_1
+;exc=2-> _31
+
+section .data
+num dw 9999
+null db 0
+string db "",0x00                           ;call kernel

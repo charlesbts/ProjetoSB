@@ -1,4 +1,6 @@
+20/6/2014
 
+;em c
 ;int num=0;
 ;char string;
 ;scanf("%c",&string);
@@ -10,6 +12,9 @@
 ;	getchar();
 ;	}
 ;	printf("%d",num);
+
+
+
 
 	mov ecx,0;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;;
 	mov eax,0

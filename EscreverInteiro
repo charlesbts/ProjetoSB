@@ -1,6 +1,19 @@
 
-;19/6/2014
+;20/6/2014
 
+;em c
+;int i=0
+;do{
+;	str[i] = (char)((Valor % 10) + 0x30);
+;	Valor = (int) (Valor / 10);
+;	If Valor != 0 str[i+1]= str[i]
+;	i = i+1
+;	} while (Valor != 0)
+;	str[i] = '/0'
+	
+	
+	
+	
 EscreverInteiro:
 	mov ebx,[num]
 	push ebx

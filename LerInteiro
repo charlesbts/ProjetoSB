@@ -1,0 +1,50 @@
+
+;int num=0;
+;char string;
+;scanf("%c",&string);
+;getchar();
+;   while (string!='\n'){
+;	num*=10;
+;	num+=((int)string-0x30);
+;	scanf("%c",&string);
+;	getchar();
+;	}
+;	printf("%d",num);
+
+	mov ecx,0;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;;
+	mov eax,0
+LerInteiro:
+	
+	mov eax,3
+	mov ebx,1
+	push ecx;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;; 
+	mov ecx,[string+ecx];;;tirar+ecx
+	mov edx,1
+	;int 80;------------------descomentar essa linha-----------------------
+
+	mov al, cl
+	cmp eax,0x0A		;enter
+	je fim
+	sub eax,0x30		;valor inteiro (0~9)
+	push eax
+	
+	mov ax,[num]	;multiplicar o valor atual de num por 10 e somar o valor do pop
+	mov ebx,10
+	mul ebx
+	pop ebx
+	add eax,ebx
+	mov [num],ax	
+	
+	pop ecx;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;; 
+	inc ecx;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;; 
+	jmp LerInteiro
+	
+fim:
+	mov ax,[num]		;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;; 
+	push ax			;só pra ver o valor;;;;;;;;;;;;;;;;deletar essa linha;;;;;;;;;;;;;;;;; 
+	ret 16				;termina
+
+section .data
+num dw 0
+null db 0
+string db "28765",0x0A                          ;exemplo de entrada, no windows n da pra chamar o sistema do linux
